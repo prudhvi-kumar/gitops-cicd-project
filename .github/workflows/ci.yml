@@ -30,3 +30,6 @@ jobs:
 
       - name: Check Python syntax
         run: python -m compileall app/
+
+      - name: Build Docker image
+        run: docker build -t employee-api:ci ./app
