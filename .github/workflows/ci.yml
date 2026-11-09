@@ -33,3 +33,13 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t employee-api:ci ./app
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          image-ref: employee-api:ci
+          format: table
+          exit-code: '0'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
