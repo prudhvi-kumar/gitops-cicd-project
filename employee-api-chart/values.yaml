@@ -1,0 +1,18 @@
+replicaCount: 3
+
+image:
+  repository: employee-api
+  pullPolicy: IfNotPresent
+  tag: "v2"
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+  initialDelaySeconds: 5
+  periodSeconds: 10

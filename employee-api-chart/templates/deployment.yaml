@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: {{ include "employee-api-chart.fullname" . }}
+  namespace: employee-api
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+
+  selector:
+    matchLabels:
+      app: employee-api
+
+  template:
+    metadata:
+      labels:
+        app: employee-api
+
+    spec:
+      containers:
+        - name: employee-api
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - containerPort: 5000
+
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.httpGet.path }}
+              port: {{ .Values.readinessProbe.httpGet.port }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
