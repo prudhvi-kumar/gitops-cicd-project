@@ -54,7 +54,11 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::833319601398:role/GitHubActions-ECR-Role
           aws-region: ap-south-2
-
+      - name: Check GitHub identity
+        run: |
+          echo "Repository: $GITHUB_REPOSITORY"
+          echo "Branch: $GITHUB_REF"
+          echo "Event: $GITHUB_EVENT_NAME"
       - name: Verify AWS identity
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: aws sts get-caller-identity
